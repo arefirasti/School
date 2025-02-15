@@ -31,11 +31,11 @@ const Nav = () => {
   };
 
   return (
-    <div className="z-50">
+    <div className="z-50 ">
       <nav className="bg-gray-200 p-4 z-50">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-white text-lg font-bold">
-            <Image src={Logo} className="w-16" onClick={clickHandler} />
+        <div className="container mx-auto flex justify-between md:justify-start items-center">
+          <div className="text-white text-lg font-bold ">
+            <Image src={Logo} className="w-16 " onClick={clickHandler} />
           </div>
           <div className="md:hidden">
             <button
@@ -60,14 +60,7 @@ const Nav = () => {
           </div>
           <div className="hidden md:flex md:space-x-4 z-50">
             {isLoading ? (
-              <div className="w-96 flex items-center justify-around">
-                <Link
-                  href={"./Order"}
-                  className="flex items-center justify-center bg-gray-100 p-1 rounded-md"
-                >
-                  <MdOutlineAppRegistration />
-                  <span className="mx-4">پیش ثبت نام</span>
-                </Link>
+              <div className="w-[350px] flex items-center justify-around">
                 <Link
                   href={""}
                   className="flex items-center justify-center bg-gray-100 p-1 rounded-md"
@@ -91,7 +84,14 @@ const Nav = () => {
                 </Link>
               </div>
             ) : (
-              <div className="w-80 flex items-center justify-around">
+              <div className="w-96 flex items-center justify-around">
+                <Link
+                  href={"./Order"}
+                  className="flex items-center justify-center bg-gray-100  p-1 rounded-md"
+                >
+                  <MdOutlineAppRegistration />
+                  <span className="mx-4">پیش ثبت نام</span>
+                </Link>
                 <Link
                   href={""}
                   className="flex items-center justify-center bg-gray-100 p-1 rounded-md "

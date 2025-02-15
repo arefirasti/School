@@ -1,6 +1,4 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import { useRouter } from "next/router";
-import Link from "next/link";
 import ChangeBackground from "@/Components/MainPage/changeBackground";
 import ParagraphText from "@/Components/Ficher/ParagraphText";
 import PinkBtn from "@/Components/Ficher/PinkBtn";
@@ -23,13 +21,13 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
-  const { isOpen, setIsOpen } = useContext(NavContext);
+  const { isOpen } = useContext(NavContext);
   return (
     <>
       <div className="bg-gray-100">
         <ChangeBackground />
       </div>
-      <section class="bg-gray-100 p-8 text-center flex flex-col items-center justify-center m-11 z-[-100]">
+      <section className="bg-gray-100 p-8 text-center flex flex-col items-center justify-center m-11 z-[-100]">
         <h2 class="text-2xl font-bold text-gray-800">دوره متوسطه دوم</h2>
         {isOpen ? null : (
           <ParagraphText>اینجا شروع آینده موفق شغلی شماست!</ParagraphText>
@@ -62,13 +60,13 @@ export default function Home() {
           ></path>
         </svg>
       </div>
-      <section class="bg-gray-100 p-8 text-center flex flex-col items-center justify-center m-11">
+      <section className="bg-gray-100 p-8 text-center flex flex-col items-center justify-center m-11">
         <ParagraphText>
           پرواز کن ، چون آسمان منتظر لمس رویا های توست
         </ParagraphText>
       </section>
-      <section class="z-[-1] md:z-40 relative bg-gray-100 h-96 p-8 text-center flex flex-col items-center justify-center m-11">
-        <h2 class="text-2xl font-bold text-gray-800">
+      <section className="z-[-1] md:z-40 relative bg-gray-100 h-96 p-8 text-center flex flex-col items-center justify-center m-11">
+        <h2 className="text-2xl font-bold text-gray-800">
           درس خلبانی فقط یادگیری پرواز نیست ، بلکه کشف بی نهایت های آسمان است .
         </h2>
         <ParagraphText>
