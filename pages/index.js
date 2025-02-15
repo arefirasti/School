@@ -9,6 +9,8 @@ import Tea from "../public/photo_6008189962253615437_y.jpg";
 import Image from "next/image";
 import Logo from "../public/cropped-photo_6005693113080860372_y.png";
 import mother from "../public/IMG_7433-400x400.jpg";
+import { useContext, useState } from "react";
+import { NavContext } from "@/Context/Store";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,19 +23,21 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
-  const urlpath = useRouter();
+  const { isOpen, setIsOpen } = useContext(NavContext);
   return (
     <>
-      <Link href={"./Order"}>Click me </Link>
       <div className="bg-gray-100">
         <ChangeBackground />
       </div>
-      <section class="bg-gray-100 p-8 text-center flex flex-col items-center justify-center m-11">
+      <section class="bg-gray-100 p-8 text-center flex flex-col items-center justify-center m-11 z-[-100]">
         <h2 class="text-2xl font-bold text-gray-800">دوره متوسطه دوم</h2>
-        <ParagraphText>اینجا شروع آینده موفق شغلی شماست!</ParagraphText>
+        {isOpen ? null : (
+          <ParagraphText>اینجا شروع آینده موفق شغلی شماست!</ParagraphText>
+        )}
+
         <PinkBtn>مشاهده همه کالسها</PinkBtn>
       </section>
-      <div>
+      <div className="z-[-100]">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
             fill="#273036"
@@ -41,9 +45,15 @@ export default function Home() {
             d="M0,96L16,122.7C32,149,64,203,96,229.3C128,256,160,256,192,240C224,224,256,192,288,176C320,160,352,160,384,154.7C416,149,448,139,480,138.7C512,139,544,149,576,138.7C608,128,640,96,672,117.3C704,139,736,213,768,224C800,235,832,181,864,154.7C896,128,928,128,960,117.3C992,107,1024,85,1056,106.7C1088,128,1120,192,1152,213.3C1184,235,1216,213,1248,170.7C1280,128,1312,64,1344,53.3C1376,43,1408,85,1424,106.7L1440,128L1440,320L1424,320C1408,320,1376,320,1344,320C1312,320,1280,320,1248,320C1216,320,1184,320,1152,320C1120,320,1088,320,1056,320C1024,320,992,320,960,320C928,320,896,320,864,320C832,320,800,320,768,320C736,320,704,320,672,320C640,320,608,320,576,320C544,320,512,320,480,320C448,320,416,320,384,320C352,320,320,320,288,320C256,320,224,320,192,320C160,320,128,320,96,320C64,320,32,320,16,320L0,320Z"
           ></path>
         </svg>
-        <h4 className="bg-[#273036] opacity-90 text-white text-center lg:text-5xl">
+
+        <h4
+          className={`bg-[#273036] opacity-90 text-white z-[-1] text-center lg:text-5xl ${
+            isOpen ? "hidden" : ""
+          }`}
+        >
           مطالب ما را در شبکه اجتماعی دنبال کنید{" "}
         </h4>
+
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
             fill="#273036"
@@ -57,7 +67,7 @@ export default function Home() {
           پرواز کن ، چون آسمان منتظر لمس رویا های توست
         </ParagraphText>
       </section>
-      <section class="relative bg-gray-100 h-96 p-8 text-center flex flex-col items-center justify-center m-11">
+      <section class="z-[-1] md:z-40 relative bg-gray-100 h-96 p-8 text-center flex flex-col items-center justify-center m-11">
         <h2 class="text-2xl font-bold text-gray-800">
           درس خلبانی فقط یادگیری پرواز نیست ، بلکه کشف بی نهایت های آسمان است .
         </h2>
@@ -65,7 +75,7 @@ export default function Home() {
           مطالب ما را در شبکه های اجتماعی و وبلاگ دنبال کنید
         </ParagraphText>
 
-        <div className="hidden md:block z-0">
+        <div className="hidden md:block z-[-100]">
           <Image
             src={BackgroundBlob}
             className="absolute left-0 bottom-0 z-0 w-96"
@@ -76,7 +86,7 @@ export default function Home() {
         </div>
       </section>
       <div className="w-full md:flex md:items-center md:justify-center">
-        <div className="md:flex md:items-center md:justify-center md:max-w-[65%]">
+        <div className="md:flex lg:items-center lg:justify-center lg:max-w-[65%]">
           <div className="p-3 w-full">
             <h4 className="font-thin md:text-xl">دو فنجان داغ</h4>
             <p className="text-3xl p-5">
@@ -85,7 +95,7 @@ export default function Home() {
               فاصیه نوشیدن دو فنجان چای داغ .
             </p>
           </div>
-          <Image src={Tea} className="p-6" />
+          <Image src={Tea} className="p-6 md:m-1" />
         </div>
         <Image
           src={BackgroundBlob}
