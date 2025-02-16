@@ -1,9 +1,15 @@
 import { POST } from "@/API/postRepository";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
+import { Toast, ToastBody, ToastContainer, ToastHeader } from "react-bootstrap";
+import { ClipLoader } from "react-spinners";
 import * as Yup from "yup";
 
 const index = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [toastMassage, setToastMassage] = useState("");
+  const [spinner, setSpinner] = useState(false);
+
   const formFields = {
     name: "",
     email: "",
@@ -35,10 +41,8 @@ const index = () => {
         return decimalDigits <= 2;
       })
       .positive(),
-    grade_year: Yup.number()
-      .min(2)
-      .min(2)
-      .positive()
+    grade_year: Yup.string()
+      .oneOf(["دهم", "یازدهم", "دوازدهم"], "سال تحصیلی باید ۱۰، ۱۱ یا ۱۲ باشد")
       .required("سال تحصیلی خود را وارد نمایید"),
     name_of_last_school: Yup.string(),
     phone_number: Yup.number()
@@ -62,22 +66,25 @@ const index = () => {
       .required("شماره موبایل مادر را وارد نمایید"),
   });
   const submitHandler = (value) => {
+    setSpinner(true);
     POST("order/register/", value)
       .then((response) => {
         if (!response.ok) {
           throw new Error("مشکلی در سرور رخ داده است");
         }
-        return response.json(); // پردازش پاسخ JSON
+        return response.json();
       })
       .then(() => {
-        alert("درخواست شما با موفقیت انجام شد!");
+        setToastMassage("درخواست شما با موفقیت انجام شد!");
       })
       .catch((error) => {
-        alert("مشکلی در ارسال درخواست رخ داده است: " + error.message);
+        setToastMassage("مشکلی در ارسال درخواست رخ داده است: " + error.message);
       });
+    setIsSubmitted(true);
+    setSpinner(false);
   };
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen  flex items-center justify-center relative p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
         <h1 className="text-2xl font-bold mb-6 text-center">فرم ثبت نام</h1>
         <Formik
@@ -169,9 +176,14 @@ const index = () => {
                   </label>
                   <Field
                     name="grade_year"
-                    type="text"
+                    as="select"
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                  />
+                  >
+                    <option value="">انتخاب کنید</option>
+                    <option value="دهم">دهم</option>
+                    <option value="یازدهم">یازدهم</option>
+                    <option value="دوازدهم">دوازدهم</option>
+                  </Field>
                   <ErrorMessage
                     name="grade_year"
                     component="div"
@@ -328,13 +340,31 @@ const index = () => {
                   type="submit"
                   className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
                 >
-                  ثبت نام
+                  {spinner ? (
+                    <ClipLoader color="#ffffff" size={20} /> // نمایش اسپینر
+                  ) : (
+                    "ثبت نام"
+                  )}
                 </button>
               </div>
             </Form>
           )}
         </Formik>
       </div>
+      <ToastContainer
+        position="bottom-end"
+        className="p-3"
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          show={isSubmitted}
+          onClose={() => setIsSubmitted(false)}
+          delay={5000}
+          autohide={true}
+        >
+          <ToastBody>{toastMassage}</ToastBody>
+        </Toast>
+      </ToastContainer>
     </div>
   );
 };

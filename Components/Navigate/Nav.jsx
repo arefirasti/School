@@ -10,6 +10,7 @@ import { GrScorecard } from "react-icons/gr";
 import { PiHandDepositBold } from "react-icons/pi";
 import { CgProfile } from "react-icons/cg";
 import { useRouter } from "next/router";
+import { Koodak } from "@/pages/_app";
 
 const Nav = () => {
   const { isOpen, setIsOpen } = useContext(NavContext);
@@ -31,16 +32,21 @@ const Nav = () => {
   };
 
   return (
-    <div className="z-50 ">
-      <nav className="bg-gray-200 p-4 z-50">
+    <div className="z-50 shadow-lg">
+      <nav className="bg-gray-200  z-50">
         <div className="container mx-auto flex justify-between md:justify-start items-center">
           <div className="text-white text-lg font-bold ">
-            <Image src={Logo} className="w-16 " onClick={clickHandler} />
+            <Image
+              src={Logo}
+              className="cursor-pointer w-16"
+              onClick={clickHandler}
+              alt="logo"
+            />
           </div>
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
-              className="text-white focus:outline-none bg-slate-400"
+              className="text-black focus:outline-none "
             >
               <svg
                 className="w-6 h-6"
@@ -60,52 +66,57 @@ const Nav = () => {
           </div>
           <div className="hidden md:flex md:space-x-4 z-50">
             {isLoading ? (
-              <div className="w-[350px] flex items-center justify-around">
+              <div className="flex items-center justify-around gap-4 p-3">
                 <Link
                   href={""}
-                  className="flex items-center justify-center bg-gray-100 p-1 rounded-md"
+                  className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
                 >
                   <GrScorecard />
-                  <span className=" mx-4">نمرات </span>
+                  <span className="mx-4">نمرات </span>
                 </Link>
                 <Link
                   href={""}
-                  className="flex items-center justify-center bg-gray-100 p-1 rounded-md"
+                  className="flex items-center justify-center  text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
                 >
                   <PiHandDepositBold />
-                  <samp className=" mx-4">واریز </samp>
+                  <span className="mx-4">واریز </span>
                 </Link>
                 <Link
                   href={""}
-                  className="flex items-center justify-center bg-gray-100 p-1 rounded-md"
+                  className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
                 >
                   <CgProfile />
                   <span className=" mx-4">پروفایل </span>
                 </Link>
               </div>
             ) : (
-              <div className="w-96 flex items-center justify-around">
-                <Link
-                  href={"./Order"}
-                  className="flex items-center justify-center bg-gray-100  p-1 rounded-md"
-                >
-                  <MdOutlineAppRegistration />
-                  <span className="mx-4">پیش ثبت نام</span>
-                </Link>
-                <Link
-                  href={""}
-                  className="flex items-center justify-center bg-gray-100 p-1 rounded-md "
-                >
-                  <RiLoginBoxLine />
-                  <span className=" mx-4">ورود</span>
-                </Link>
-                <Link
-                  href={""}
-                  className="flex items-center justify-center bg-gray-100 p-1 rounded-md"
-                >
-                  <MdOutlineMapsHomeWork />
-                  <samp className=" mx-4"> کارد اجرایی</samp>
-                </Link>
+              <div className=" flex items-center justify-around gap-4 p-3">
+                <div>
+                  <Link
+                    href={""}
+                    className="flex items-center justify-center text-gray-100 text-decoration-none bg-gray-700 hover:bg-slate-400 hover:text-gray-700 p-1 rounded-md "
+                  >
+                    <RiLoginBoxLine />
+                    <span className=" mx-4">ورود</span>
+                  </Link>
+                </div>
+                <div className="flex items-center justify-around gap-4">
+                  <Link
+                    href={"./Order"}
+                    className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100  p-1 rounded-md"
+                  >
+                    <MdOutlineAppRegistration />
+                    <span className="mx-4">پیش ثبت نام</span>
+                  </Link>
+
+                  <Link
+                    href={""}
+                    className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
+                  >
+                    <MdOutlineMapsHomeWork />
+                    <span className=" mx-4">کادر اجرایی </span>
+                  </Link>
+                </div>
               </div>
             )}
           </div>
@@ -119,7 +130,7 @@ const Nav = () => {
         <div className="p-4">
           <button
             onClick={toggleMenu}
-            className="text-white focus:outline-none"
+            className="text-black focus:outline-none"
           >
             <svg
               className="w-6 h-6"
@@ -139,51 +150,51 @@ const Nav = () => {
         </div>
         <div className="mt-4 z-50">
           {isLoading ? (
-            <div className="flex flex-col p-4">
-              <Link
-                href={"./Order"}
-                className=" my-3 flex items-center justify-center bg-gray-100 p-1 rounded-md"
-              >
-                <MdOutlineAppRegistration />
-                <span className="mx-4">پیش ثبت نام</span>
-              </Link>
+            <div className="flex flex-col p-2">
               <Link
                 href={""}
-                className="my-3 flex items-center justify-center bg-gray-100 p-1 rounded-md"
+                className="my-3 flex items-center justify-center text-gray-700 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
               >
                 <GrScorecard />
                 <span className=" mx-4">نمرات </span>
               </Link>
               <Link
                 href={""}
-                className="my-3 flex items-center justify-center bg-gray-100 p-1 rounded-md"
+                className="my-3 flex items-center justify-center text-gray-700 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
               >
                 <PiHandDepositBold />
-                <samp className=" mx-4">واریز </samp>
+                <span className=" mx-4">واریز </span>
               </Link>
               <Link
                 href={""}
-                className="my-3 flex items-center justify-center bg-gray-100 p-1 rounded-md"
+                className="my-3 flex items-center justify-center text-gray-700 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
               >
                 <CgProfile />
                 <span className=" mx-4">پروفایل </span>
               </Link>
             </div>
           ) : (
-            <div className=" flex flex-col p-4">
+            <div className=" flex flex-col p-2">
               <Link
                 href={""}
-                className="my-3 flex items-center justify-center bg-gray-100 p-1 rounded-md"
+                className="my-3 flex items-center justify-center text-gray-100 text-decoration-none shadow-sm bg-gray-700 p-1 rounded-md"
               >
                 <RiLoginBoxLine />
                 <span className=" mx-4">ورود</span>
               </Link>
               <Link
                 href={""}
-                className="flex items-center justify-center bg-gray-100 p-1 rounded-md"
+                className="flex items-center justify-center text-gray-800 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
               >
                 <MdOutlineMapsHomeWork />
-                <samp className=" mx-4"> کارد اجرایی</samp>
+                <span className=" mx-4"> کادر اجرایی</span>
+              </Link>
+              <Link
+                href={"./Order"}
+                className=" my-3 flex items-center justify-center text-gray-800 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
+              >
+                <MdOutlineAppRegistration />
+                <span className="mx-4">پیش ثبت نام</span>
               </Link>
             </div>
           )}
