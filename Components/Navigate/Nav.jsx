@@ -35,7 +35,7 @@ const Nav = () => {
   const logoutHandler = () => {
     Cookies.remove("token");
     setIsLoggedIn(false);
-    setIsOpen(!isOpen);
+    setIsOpen(false);
     router.push("/");
   };
 
