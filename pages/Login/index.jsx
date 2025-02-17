@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { BeatLoader, ClipLoader } from "react-spinners";
 import { POST } from "@/API/postRepository";
+import Cookies from "js-cookie";
+import { NavContext } from "@/Context/Store";
+import { useRouter } from "next/router";
 
 const LoginForm = () => {
+  const { setIsLoggedIn } = useContext(NavContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
   const formFields = {
     username: "",
     password: "",
@@ -15,23 +20,23 @@ const LoginForm = () => {
     password: Yup.string().required("رمز عبور الزامی است"),
   });
 
-  const handleSubmit = (value) => {
+  const handleSubmit = async (value) => {
     setIsSubmitting(true);
     console.log("Stars Submit");
-    POST("order/register/", value)
-      .then((response) => {
-        console.log("we in the process");
-        if (!response.ok) {
-          throw new Error("مشکلی در سرور رخ داده است");
-        }
-        return response.json();
-      })
-      .then(() => {
-        console.log("Everything is correct.");
-      })
-      .catch((error) => {
-        console.log("Error is :" + error.message);
-      });
+
+    try {
+      const response = await POST("accounts/login/", value);
+      const data = await response.json();
+      if (response.ok) {
+        Cookies.set("token", data.token, { expires: 7 });
+        setIsLoggedIn(true);
+        router.push("/");
+      } else {
+        console.error("Login failed:", data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
     console.log("End of Submit");
     setIsSubmitting(false);
   };

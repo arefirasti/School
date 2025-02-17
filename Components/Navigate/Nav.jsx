@@ -11,10 +11,12 @@ import { PiHandDepositBold } from "react-icons/pi";
 import { CgProfile } from "react-icons/cg";
 import { useRouter } from "next/router";
 import { FaChalkboardTeacher } from "react-icons/fa";
+import { FaSignOutAlt } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 const Nav = () => {
   const { isOpen, setIsOpen } = useContext(NavContext);
-  const { isLoading } = useContext(NavContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(NavContext);
   const router = useRouter();
   const clickHandler = () => {
     router.push("/");
@@ -29,6 +31,12 @@ const Nav = () => {
   }, [isOpen]);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+  const logoutHandler = () => {
+    Cookies.remove("token");
+    setIsLoggedIn(false);
+    setIsOpen(!isOpen);
+    router.push("/login");
   };
 
   return (
@@ -65,10 +73,17 @@ const Nav = () => {
             </button>
           </div>
           <div className="hidden md:flex md:space-x-4 z-50">
-            {isLoading ? (
+            {isLoggedIn ? (
               <div className="flex items-center justify-around gap-4 p-3">
                 <Link
                   href={""}
+                  className="flex items-center justify-center  text-gray-100 text-decoration-none bg-gray-700 hover:bg-slate-400 p-1 rounded-md"
+                >
+                  <CgProfile />
+                  <span className=" mx-4">پروفایل </span>
+                </Link>
+                <Link
+                  href={"./StudentGrades"}
                   className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
                 >
                   <GrScorecard />
@@ -81,13 +96,13 @@ const Nav = () => {
                   <PiHandDepositBold />
                   <span className="mx-4">واریز </span>
                 </Link>
-                <Link
-                  href={""}
-                  className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
+                <button
+                  className="my-3 flex shadow-none items-center justify-center text-red-600 text-decoration-none  bg-gray-200 p-1 rounded-md"
+                  onClick={logoutHandler}
                 >
-                  <CgProfile />
-                  <span className=" mx-4">پروفایل </span>
-                </Link>
+                  <FaSignOutAlt />
+                  <span className=" mx-4">خروج </span>
+                </button>
               </div>
             ) : (
               <div className=" flex items-center justify-around gap-4 p-3">
@@ -118,7 +133,7 @@ const Nav = () => {
                   </Link>
 
                   <Link
-                    href={""}
+                    href={"./Teachers"}
                     className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
                   >
                     <FaChalkboardTeacher />
@@ -157,10 +172,17 @@ const Nav = () => {
           </button>
         </div>
         <div className="mt-4 z-50">
-          {isLoading ? (
+          {isLoggedIn ? (
             <div className="flex flex-col p-2">
               <Link
                 href={""}
+                className="my-3 flex items-center justify-center  text-gray-100 text-decoration-none bg-gray-700  p-1 rounded-md"
+              >
+                <CgProfile />
+                <span className=" mx-4">پروفایل </span>
+              </Link>
+              <Link
+                href={"./StudentGrades"}
                 className="my-3 flex items-center justify-center text-gray-700 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
               >
                 <GrScorecard />
@@ -173,13 +195,13 @@ const Nav = () => {
                 <PiHandDepositBold />
                 <span className=" mx-4">واریز </span>
               </Link>
-              <Link
-                href={""}
-                className="my-3 flex items-center justify-center text-gray-700 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
+              <button
+                className="my-3 flex items-center justify-center text-red-600 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
+                onClick={logoutHandler}
               >
-                <CgProfile />
-                <span className=" mx-4">پروفایل </span>
-              </Link>
+                <FaSignOutAlt />
+                <span className=" mx-4">خروج </span>
+              </button>
             </div>
           ) : (
             <div className=" flex flex-col p-2">
