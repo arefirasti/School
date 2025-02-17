@@ -1,7 +1,7 @@
 import { NavContext } from "@/Context/Store";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import Logo from "../../public/cropped-photo_6005693113080860372_y.png";
 import { RiLoginBoxLine } from "react-icons/ri";
 import { MdOutlineMapsHomeWork } from "react-icons/md";
@@ -10,7 +10,7 @@ import { GrScorecard } from "react-icons/gr";
 import { PiHandDepositBold } from "react-icons/pi";
 import { CgProfile } from "react-icons/cg";
 import { useRouter } from "next/router";
-import { Koodak } from "@/pages/_app";
+import { FaChalkboardTeacher } from "react-icons/fa";
 
 const Nav = () => {
   const { isOpen, setIsOpen } = useContext(NavContext);
@@ -93,7 +93,7 @@ const Nav = () => {
               <div className=" flex items-center justify-around gap-4 p-3">
                 <div>
                   <Link
-                    href={""}
+                    href={"./Login"}
                     className="flex items-center justify-center text-gray-100 text-decoration-none bg-gray-700 hover:bg-slate-400 hover:text-gray-700 p-1 rounded-md "
                   >
                     <RiLoginBoxLine />
@@ -115,6 +115,14 @@ const Nav = () => {
                   >
                     <MdOutlineMapsHomeWork />
                     <span className=" mx-4">کادر اجرایی </span>
+                  </Link>
+
+                  <Link
+                    href={""}
+                    className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
+                  >
+                    <FaChalkboardTeacher />
+                    <span className="mx-4"> اساتید </span>
                   </Link>
                 </div>
               </div>
@@ -176,7 +184,7 @@ const Nav = () => {
           ) : (
             <div className=" flex flex-col p-2">
               <Link
-                href={""}
+                href={"./Login"}
                 className="my-3 flex items-center justify-center text-gray-100 text-decoration-none shadow-sm bg-gray-700 p-1 rounded-md"
               >
                 <RiLoginBoxLine />
@@ -195,6 +203,13 @@ const Nav = () => {
               >
                 <MdOutlineAppRegistration />
                 <span className="mx-4">پیش ثبت نام</span>
+              </Link>
+              <Link
+                href={""}
+                className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
+              >
+                <FaChalkboardTeacher />
+                <span className="mx-4"> اساتید </span>
               </Link>
             </div>
           )}

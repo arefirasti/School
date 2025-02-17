@@ -1,8 +1,8 @@
 import { POST } from "@/API/postRepository";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useState } from "react";
-import { Toast, ToastBody, ToastContainer, ToastHeader } from "react-bootstrap";
-import { ClipLoader } from "react-spinners";
+import { Toast, ToastBody, ToastContainer } from "react-bootstrap";
+import { BeatLoader } from "react-spinners";
 import * as Yup from "yup";
 
 const index = () => {
@@ -341,7 +341,7 @@ const index = () => {
                   className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
                 >
                   {spinner ? (
-                    <ClipLoader color="#ffffff" size={20} /> // نمایش اسپینر
+                    <BeatLoader color="#ffffff" size={9} />
                   ) : (
                     "ثبت نام"
                   )}
