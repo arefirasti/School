@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { BeatLoader, ClipLoader } from "react-spinners";
+import { POST } from "@/API/postRepository";
 
 const LoginForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);

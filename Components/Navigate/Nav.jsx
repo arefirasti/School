@@ -205,7 +205,7 @@ const Nav = () => {
                 <span className="mx-4">پیش ثبت نام</span>
               </Link>
               <Link
-                href={""}
+                href={"./Teachers"}
                 className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
               >
                 <FaChalkboardTeacher />
