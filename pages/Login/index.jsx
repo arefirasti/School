@@ -6,10 +6,13 @@ import { POST } from "@/API/postRepository";
 import Cookies from "js-cookie";
 import { NavContext } from "@/Context/Store";
 import { useRouter } from "next/router";
+import { Toast, ToastBody, ToastContainer } from "react-bootstrap";
 
 const LoginForm = () => {
   const { setIsLoggedIn } = useContext(NavContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toastMassage, setToastMassage] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const router = useRouter();
   const formFields = {
     username: "",
@@ -30,7 +33,8 @@ const LoginForm = () => {
         setIsLoggedIn(true);
         router.push("/");
       } else {
-        alert("Login failed:", data.message);
+        setIsSubmitted(true);
+        setToastMassage("کد ملی یا رمز عبور اشتباه است ");
       }
     } catch (error) {
       alert("Error:", error);
@@ -39,7 +43,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen  flex items-center justify-center p-4">
+    <div className="min-h-screen  flex items-center justify-center p-4 relative">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">ورود </h1>
         <Formik
@@ -102,6 +106,20 @@ const LoginForm = () => {
           )}
         </Formik>
       </div>
+      <ToastContainer
+        position="top-center"
+        className="p-3"
+        style={{ zIndex: 1 }}
+      >
+        <Toast
+          show={isSubmitted}
+          onClose={() => setIsSubmitted(false)}
+          delay={5000}
+          autohide={true}
+        >
+          <ToastBody>{toastMassage}</ToastBody>
+        </Toast>
+      </ToastContainer>
     </div>
   );
 };
