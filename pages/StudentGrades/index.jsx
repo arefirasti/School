@@ -2,7 +2,6 @@ import GradesTable from "@/Components/GradesTable/GradesTable";
 import React from "react";
 
 const index = (props) => {
-  console.log(props.data);
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">نمرات دانش‌آموز</h1>

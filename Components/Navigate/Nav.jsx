@@ -36,7 +36,7 @@ const Nav = () => {
     Cookies.remove("token");
     setIsLoggedIn(false);
     setIsOpen(!isOpen);
-    router.push("/login");
+    router.push("/");
   };
 
   return (

@@ -22,8 +22,6 @@ const LoginForm = () => {
 
   const handleSubmit = async (value) => {
     setIsSubmitting(true);
-    console.log("Stars Submit");
-
     try {
       const response = await POST("accounts/login/", value);
       const data = await response.json();
@@ -32,12 +30,11 @@ const LoginForm = () => {
         setIsLoggedIn(true);
         router.push("/");
       } else {
-        console.error("Login failed:", data.message);
+        alert("Login failed:", data.message);
       }
     } catch (error) {
-      console.error("Error:", error);
+      alert("Error:", error);
     }
-    console.log("End of Submit");
     setIsSubmitting(false);
   };
 
