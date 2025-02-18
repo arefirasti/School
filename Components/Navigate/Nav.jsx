@@ -76,7 +76,7 @@ const Nav = () => {
             {isLoggedIn ? (
               <div className="flex items-center justify-around gap-4 p-3">
                 <Link
-                  href={""}
+                  href={"./Profile"}
                   className="flex items-center justify-center  text-gray-100 text-decoration-none bg-gray-700 hover:bg-slate-400 p-1 rounded-md"
                 >
                   <CgProfile />
@@ -90,7 +90,7 @@ const Nav = () => {
                   <span className="mx-4">نمرات </span>
                 </Link>
                 <Link
-                  href={""}
+                  href={"./Salary"}
                   className="flex items-center justify-center  text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
                 >
                   <PiHandDepositBold />
@@ -175,7 +175,7 @@ const Nav = () => {
           {isLoggedIn ? (
             <div className="flex flex-col p-2">
               <Link
-                href={""}
+                href={"./Profile"}
                 className="my-3 flex items-center justify-center  text-gray-100 text-decoration-none bg-gray-700  p-1 rounded-md"
               >
                 <CgProfile />
@@ -189,7 +189,7 @@ const Nav = () => {
                 <span className=" mx-4">نمرات </span>
               </Link>
               <Link
-                href={""}
+                href={"./Salary"}
                 className="my-3 flex items-center justify-center text-gray-700 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
               >
                 <PiHandDepositBold />

@@ -9,23 +9,14 @@ import Logo from "../public/cropped-photo_6005693113080860372_y.png";
 import mother from "../public/IMG_7433-400x400.jpg";
 import { useContext, useState } from "react";
 import { NavContext } from "@/Context/Store";
+import { GET } from "@/API/getRepository";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export default function Home() {
+export default function Home(props) {
   const { isOpen } = useContext(NavContext);
   return (
     <>
       <div className="bg-gray-100">
-        <ChangeBackground />
+        <ChangeBackground carousel={props.carouselResponse} />
       </div>
       <section className="bg-gray-100 p-8 text-center flex flex-col items-center justify-center m-11 z-[-100]">
         <h2 className="text-2xl font-bold text-gray-800">دوره متوسطه دوم</h2>
@@ -124,4 +115,14 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps() {
+  const carouselURL = await GET("adv/slider/");
+  const carouselResponse = await carouselURL.json();
+  return {
+    props: {
+      carouselResponse,
+    },
+  };
 }

@@ -2,12 +2,23 @@ import GradesTable from "@/Components/GradesTable/GradesTable";
 import React from "react";
 
 const index = (props) => {
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">نمرات دانش‌آموز</h1>
-      <GradesTable grades={props.data} />
-    </div>
-  );
+  if (props.data.length > 0) {
+    return (
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">نمرات دانش‌آموز</h1>
+        <GradesTable grades={props.data} />
+      </div>
+    );
+  } else {
+    return (
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">
+          {" "}
+          برای مشاهده ابتدا شهریه را پرداخت کنید
+        </h1>
+      </div>
+    );
+  }
 };
 
 export default index;
