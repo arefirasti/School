@@ -41,8 +41,8 @@ const index = () => {
         return decimalDigits <= 2;
       })
       .positive(),
-    grade_year: Yup.string()
-      .oneOf(["دهم", "یازدهم", "دوازدهم"], "سال تحصیلی باید ۱۰، ۱۱ یا ۱۲ باشد")
+    grade_year: Yup.number()
+      .oneOf([10, 11, 12], "سال تحصیلی باید ۱۰، ۱۱ یا ۱۲ باشد")
       .required("سال تحصیلی خود را وارد نمایید"),
     name_of_last_school: Yup.string(),
     phone_number: Yup.number()
@@ -50,8 +50,22 @@ const index = () => {
       .min(11)
       .positive()
       .required("شماره موبایل خود را وارد نمایید"),
-    fathers_name: Yup.string().required("نام پدر"),
-    mothers_name: Yup.string().required("نام مادر"),
+    fathers_name: Yup.string().test(
+      "fathers_name_or_mothers_name",
+      "حداقل یکی از فیلدهای نام پدر یا نام مادر باید پر شود",
+      function (value) {
+        const { mothers_name } = this.parent;
+        return !!value || !!mothers_name;
+      }
+    ),
+    mothers_name: Yup.string().test(
+      "fathers_name_or_mothers_name",
+      "حداقل یکی از فیلدهای نام پدر یا نام مادر باید پر شود",
+      function (value) {
+        const { fathers_name } = this.parent;
+        return !!value || !!fathers_name;
+      }
+    ),
     fathers_job: Yup.string().required("شغل پدر"),
     mothers_job: Yup.string().required("شغل مادر"),
     father_number: Yup.number()
@@ -65,23 +79,36 @@ const index = () => {
       .positive()
       .required("شماره موبایل مادر را وارد نمایید"),
   });
-  const submitHandler = (value) => {
-    setSpinner(true);
-    POST("order/register/", value)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("مشکلی در سرور رخ داده است");
-        }
-        return response.json();
-      })
-      .then(() => {
-        setToastMassage("درخواست شما با موفقیت انجام شد!");
-      })
-      .catch((error) => {
-        setToastMassage("مشکلی در ارسال درخواست رخ داده است: " + error.message);
-      });
-    setIsSubmitted(true);
-    setSpinner(false);
+  const submitHandler = async (values, { setErrors }) => {
+    try {
+      if (!values.fathers_name && !values.mothers_name) {
+        setErrors({
+          fathers_name: "حداقل یکی از فیلدهای نام پدر یا نام مادر باید پر شود",
+          mothers_name: "حداقل یکی از فیلدهای نام پدر یا نام مادر باید پر شود",
+        });
+        return;
+      }
+
+      setSpinner(true);
+      const sanitizedValues = {
+        ...values,
+        fathers_name: values.fathers_name || null,
+        mothers_name: values.mothers_name || null,
+      };
+      const response = await POST("order/register/", sanitizedValues);
+
+      if (!response.ok) {
+        throw new Error("مشکلی در سرور رخ داده است");
+      }
+
+      const data = await response.json();
+      setToastMassage("درخواست شما با موفقیت انجام شد!");
+      setIsSubmitted(true);
+    } catch (error) {
+      setToastMassage("مشکلی در ارسال درخواست رخ داده است: " + error.message);
+    } finally {
+      setSpinner(false);
+    }
   };
   return (
     <div className="min-h-screen  flex items-center justify-center relative p-4">
@@ -180,9 +207,9 @@ const index = () => {
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   >
                     <option value="">انتخاب کنید</option>
-                    <option value="دهم">دهم</option>
-                    <option value="یازدهم">یازدهم</option>
-                    <option value="دوازدهم">دوازدهم</option>
+                    <option value="10">دهم</option>
+                    <option value="11">یازدهم</option>
+                    <option value="12">دوازدهم</option>
                   </Field>
                   <ErrorMessage
                     name="grade_year"

@@ -125,7 +125,7 @@ const Nav = () => {
                   </Link>
 
                   <Link
-                    href={""}
+                    href={"./Employees"}
                     className="flex items-center justify-center text-gray-700 text-decoration-none bg-gray-200 hover:bg-slate-100 p-1 rounded-md"
                   >
                     <MdOutlineMapsHomeWork />
@@ -213,7 +213,7 @@ const Nav = () => {
                 <span className=" mx-4">ورود</span>
               </Link>
               <Link
-                href={""}
+                href={"./Employees"}
                 className="flex items-center justify-center text-gray-800 text-decoration-none shadow-sm bg-gray-200 p-1 rounded-md"
               >
                 <MdOutlineMapsHomeWork />

@@ -4,12 +4,11 @@ import * as Yup from "yup";
 import { BeatLoader, ClipLoader } from "react-spinners";
 import { Toast, ToastBody, ToastContainer } from "react-bootstrap";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
 
 const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const router = useRouter();
+
   const [toastMassage, setToastMassage] = useState("");
   const initialValues = {
     image_payment: undefined,
