@@ -1,7 +1,7 @@
 import { GETWiTHTOKEN } from "@/API/getWithToken";
 import React, { useState } from "react";
 import { toPng } from "html-to-image";
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { PDFDocument, StandardFonts, error, rgb } from "pdf-lib";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Cookies from "js-cookie";
 import { POSTWITHTOKEN } from "@/API/postWithToken";
@@ -198,12 +198,14 @@ const StudentProfile = (props) => {
         <div className="mt-6 flex justify-end">
           <button
             onClick={
-              props.studentInfoRespons.tuition_paid ? handleDownloadPDF : null
+              props.examRespons.hasOwnProperty("error")
+                ? null
+                : handleDownloadPDF
             }
             className={` text-white px-4 py-2 rounded-md hover:bg-indigo-700 ${
-              props.studentInfoRespons.tuition_paid
-                ? "bg-indigo-600"
-                : "bg-gray-400 pointer-events-none"
+              props.examRespons.hasOwnProperty("error")
+                ? "bg-gray-400 pointer-events-none"
+                : "bg-indigo-600"
             }`}
           >
             {props.studentInfoRespons.tuition_paid
@@ -219,12 +221,18 @@ const StudentProfile = (props) => {
 export default StudentProfile;
 
 export async function getServerSideProps(context) {
-  const token = context.req.cookies.token;
-  const studentInfoURL = await GETWiTHTOKEN("students/student/", token);
-  const studentInfoRespons = await studentInfoURL.json();
-  return {
-    props: {
-      studentInfoRespons,
-    },
-  };
+  try {
+    const token = context.req.cookies.token;
+    const studentInfoURL = await GETWiTHTOKEN("students/student/", token);
+    const studentInfoRespons = await studentInfoURL.json();
+
+    const examURl = await GETWiTHTOKEN("students/examcard/", token);
+    const examRespons = await examURl.json();
+    return {
+      props: {
+        studentInfoRespons,
+        examRespons,
+      },
+    };
+  } catch (error) {}
 }

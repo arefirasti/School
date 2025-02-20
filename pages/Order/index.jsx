@@ -1,125 +1,94 @@
 import { POST } from "@/API/postRepository";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useState } from "react";
+import { ErrorMessage, FastField, Field, Form, Formik } from "formik";
+import React, { useState, useCallback, useMemo } from "react";
 import { Toast, ToastBody, ToastContainer } from "react-bootstrap";
 import { BeatLoader } from "react-spinners";
 import * as Yup from "yup";
 
-const index = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [toastMassage, setToastMassage] = useState("");
-  const [spinner, setSpinner] = useState(false);
+const formFields = {
+  name: "",
+  email: "",
+  identity: "",
+  score_year: "",
+  grade_year: "",
+  name_of_last_school: "",
+  phone_number: "",
+  fathers_name: "",
+  mothers_name: "",
+  fathers_job: "",
+  mothers_job: "",
+  father_number: "",
+  mother_number: "",
+};
 
-  const formFields = {
-    name: "",
-    email: "",
-    identity: "",
-    score_year: "",
-    grade_year: "",
-    name_of_last_school: "",
-    phone_number: "",
-    fathers_name: "",
-    mothers_name: "",
-    fathers_job: "",
-    mothers_job: "",
-    father_number: "",
-    mother_number: "",
-  };
-  const validationSchema = Yup.object({
-    name: Yup.string().required("نام و نام خانوادگی خود را وارد نمایید"),
-    email: Yup.string().email().required("ایمیل خود را وارد نمایید"),
-    identity: Yup.number()
-      .min(10)
-      .min(10)
-      .positive()
-      .required("کد ملی خود را وارد نمایید"),
-    score_year: Yup.number()
-      .required()
-      .test("score_year", "اعشار باید دو رقمی باشد", (value) => {
-        if (!value) return true;
-        const decimalDigits = (value.toString().split(".")[1] || "").length;
-        return decimalDigits <= 2;
-      })
-      .positive(),
-    grade_year: Yup.number()
-      .oneOf([10, 11, 12], "سال تحصیلی باید ۱۰، ۱۱ یا ۱۲ باشد")
-      .required("سال تحصیلی خود را وارد نمایید"),
-    name_of_last_school: Yup.string(),
-    phone_number: Yup.number()
-      .min(11)
-      .min(11)
-      .positive()
-      .required("شماره موبایل خود را وارد نمایید"),
-    fathers_name: Yup.string().test(
-      "fathers_name_or_mothers_name",
-      "حداقل یکی از فیلدهای نام پدر یا نام مادر باید پر شود",
-      function (value) {
-        const { mothers_name } = this.parent;
-        return !!value || !!mothers_name;
-      }
-    ),
-    mothers_name: Yup.string().test(
-      "fathers_name_or_mothers_name",
-      "حداقل یکی از فیلدهای نام پدر یا نام مادر باید پر شود",
-      function (value) {
-        const { fathers_name } = this.parent;
-        return !!value || !!fathers_name;
-      }
-    ),
-    fathers_job: Yup.string().required("شغل پدر"),
-    mothers_job: Yup.string().required("شغل مادر"),
-    father_number: Yup.number()
-      .min(11)
-      .min(11)
-      .positive()
-      .required("شماره موبایل پدر را وارد نمایید"),
-    mother_number: Yup.number()
-      .min(11)
-      .min(11)
-      .positive()
-      .required("شماره موبایل مادر را وارد نمایید"),
-  });
-  const submitHandler = async (values, { setErrors }) => {
+const validationSchema = Yup.object({
+  name: Yup.string().required("نام و نام خانوادگی خود را وارد نمایید"),
+  email: Yup.string().email().required("ایمیل خود را وارد نمایید"),
+  identity: Yup.number()
+    .min(10)
+    .positive()
+    .required("کد ملی خود را وارد نمایید"),
+  score_year: Yup.number()
+    .required()
+    .test("score_year", "اعشار باید دو رقمی باشد", (value) => {
+      if (!value) return true;
+      return (value.toString().split(".")[1] || "").length <= 2;
+    })
+    .positive(),
+  grade_year: Yup.number()
+    .oneOf([10, 11, 12], "سال تحصیلی باید ۱۰، ۱۱ یا ۱۲ باشد")
+    .required("سال تحصیلی خود را وارد نمایید"),
+  phone_number: Yup.number()
+    .min(11)
+    .positive()
+    .required("شماره موبایل خود را وارد نمایید"),
+  fathers_name: Yup.string().required("نام پدر"),
+  mothers_name: Yup.string().required("نام مادر"),
+  fathers_job: Yup.string().required("شغل پدر"),
+  mothers_job: Yup.string().required("شغل مادر"),
+  father_number: Yup.number()
+    .min(11)
+    .positive()
+    .required("شماره موبایل پدر را وارد نمایید"),
+  mother_number: Yup.number()
+    .min(11)
+    .positive()
+    .required("شماره موبایل مادر را وارد نمایید"),
+});
+
+const Index = () => {
+  const [toast, setToast] = useState({ show: false, message: "" });
+
+  const submitHandler = useCallback(async (values, { setSubmitting }) => {
     try {
-      if (!values.fathers_name && !values.mothers_name) {
-        setErrors({
-          fathers_name: "حداقل یکی از فیلدهای نام پدر یا نام مادر باید پر شود",
-          mothers_name: "حداقل یکی از فیلدهای نام پدر یا نام مادر باید پر شود",
-        });
-        return;
-      }
+      const response = await POST("order/register/", values);
+      if (!response.ok) throw new Error("مشکلی در سرور رخ داده است");
 
-      setSpinner(true);
-      const sanitizedValues = {
-        ...values,
-        fathers_name: values.fathers_name || null,
-        mothers_name: values.mothers_name || null,
-      };
-      const response = await POST("order/register/", sanitizedValues);
-
-      if (!response.ok) {
-        throw new Error("مشکلی در سرور رخ داده است");
-      }
-
-      const data = await response.json();
-      setToastMassage("درخواست شما با موفقیت انجام شد!");
-      setIsSubmitted(true);
+      setToast({ show: true, message: "درخواست شما با موفقیت انجام شد!" });
     } catch (error) {
-      setToastMassage("مشکلی در ارسال درخواست رخ داده است: " + error.message);
+      setToast({
+        show: true,
+        message: "مشکلی در ارسال درخواست رخ داده است: " + error.message,
+      });
     } finally {
-      setSpinner(false);
+      setSubmitting(false);
     }
-  };
+  }, []);
+
   return (
-    <div className="min-h-screen  flex items-center justify-center relative p-4">
+    <div className="min-h-screen flex items-center justify-center relative p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
         <h1 className="text-2xl font-bold mb-6 text-center">فرم ثبت نام</h1>
+        <h3 className="text-sm font-thin text-gray-500">
+          در صورت حضور نداشتن پدر یا مادر در جمع خانواده اطلاعات یکی از آنها را
+          به جای هر دو وارد کنید.
+        </h3>
         <Formik
           initialValues={formFields}
           validationSchema={validationSchema}
           onSubmit={submitHandler}
         >
-          {() => (
+          {({ isSubmitting }) => (
             <Form className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -367,7 +336,7 @@ const index = () => {
                   type="submit"
                   className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
                 >
-                  {spinner ? (
+                  {isSubmitting ? (
                     <BeatLoader color="#ffffff" size={9} />
                   ) : (
                     "ثبت نام"
@@ -384,16 +353,16 @@ const index = () => {
         style={{ zIndex: 1 }}
       >
         <Toast
-          show={isSubmitted}
-          onClose={() => setIsSubmitted(false)}
+          show={toast.show}
+          onClose={() => setToast({ show: false, message: "" })}
           delay={5000}
-          autohide={true}
+          autohide
         >
-          <ToastBody>{toastMassage}</ToastBody>
+          <ToastBody>{toast.message}</ToastBody>
         </Toast>
       </ToastContainer>
     </div>
   );
 };
 
-export default index;
+export default Index;

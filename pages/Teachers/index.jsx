@@ -18,9 +18,18 @@ const index = (props) => {
 export default index;
 
 export async function getStaticProps() {
-  const urlTeacherAPI = await GET("teachers/list/");
-  const resTeacherAPI = await urlTeacherAPI.json();
-  return {
-    props: { resTeacherAPI },
-  };
+  try {
+    const urlTeacherAPI = await GET("teachers/list/");
+    const resTeacherAPI = await urlTeacherAPI.json();
+    return {
+      props: { resTeacherAPI },
+      revalidate: 86400,
+    };
+  } catch (error) {
+    console.error("خطا در دریافت داده‌ها:", error);
+    return {
+      props: { resTeacherAPI: [] },
+      revalidate: 86400,
+    };
+  }
 }

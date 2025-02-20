@@ -34,10 +34,11 @@ const Index = () => {
           body: formData,
         }
       );
+      const data = await response.json();
       if (response.ok) {
         setToastMassage("درخواست شما با موفقیت انجام شد!");
       } else {
-        setToastMassage("مشکلی در ارسال درخواست رخ داده است ");
+        setToastMassage(data.error);
       }
     } catch (error) {
       setToastMassage("پیغام خطا :" + error.message);
