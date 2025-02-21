@@ -17,12 +17,18 @@ export default function Home({ carouselResponse }) {
       <div className="bg-gray-100">
         <ChangeBackground carousel={carouselResponse} />
       </div>
-      {/* معرفی دوره */}
-      <IntroductionSection isNavbarOpen={isNavbarOpen} />
-      {/* اطلاعات و محتوای سایت */}
-      <InfoSection />
-      {/* فوتر و توضیحات */}
-      <FooterSection />{" "}
+      <div>
+        {/* معرفی دوره */}
+        <IntroductionSection isNavbarOpen={isNavbarOpen} />
+      </div>
+      <div>
+        {/* اطلاعات و محتوای سایت */}
+        <InfoSection />
+      </div>
+      <div>
+        {/* فوتر و توضیحات */}
+        <FooterSection />{" "}
+      </div>
     </>
   );
 }
