@@ -1,4 +1,4 @@
-import ChangeBackground from "@/Components/MainPage/changeBackground";
+import ChangeBackground from "@/Components/MainPage/ChangeBackground";
 import ParagraphText from "@/Components/Ficher/ParagraphText";
 import PinkBtn from "@/Components/Ficher/PinkBtn";
 import Tea from "../public/photo_6008189962253615437_y.jpg";
