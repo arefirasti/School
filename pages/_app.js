@@ -16,6 +16,12 @@ export default function App({ Component, pageProps }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [firsloading, setFirstLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setFirstLoading(false);
+    }, 1500); // شبیه‌سازی مدت‌زمان بارگذاری
+  }, []);
 
   useEffect(() => {
     const handleStart = () => setLoading(true);
@@ -40,19 +46,25 @@ export default function App({ Component, pageProps }) {
     }
   }, []);
   return (
-    <div className={Koodak.className}>
-      {loading && <Loader />}
-      <NavContext.Provider
-        value={{ isOpen, setIsOpen, isLoggedIn, setIsLoggedIn }}
-      >
-        <div>
-          <Nav />
+    <>
+      {firsloading ? (
+        <Loader />
+      ) : (
+        <div className={Koodak.className}>
+          {loading && <Loader />}
+          <NavContext.Provider
+            value={{ isOpen, setIsOpen, isLoggedIn, setIsLoggedIn }}
+          >
+            <div>
+              <Nav />
+            </div>
+            <Component {...pageProps} />
+          </NavContext.Provider>
+          <div>
+            <Footer />
+          </div>
         </div>
-        <Component {...pageProps} />
-      </NavContext.Provider>
-      <div>
-        <Footer />
-      </div>
-    </div>
+      )}
+    </>
   );
 }
