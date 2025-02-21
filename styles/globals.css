@@ -8,13 +8,13 @@
 }
 @font-face {
   font-family: "Koodak";
-  src: url("/Fonts/KoodakBold.woff") format("woff");
+  src: url("../Fonts/KoodakBold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
 }
 
 body {
   direction: rtl;
-  font-family: "Koodak", sans-serif;
+  font-family: "Koodak";
   background-color: var(--background);
 }
