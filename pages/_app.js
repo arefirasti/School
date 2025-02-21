@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Loader from "@/Components/Ficher/Loader";
 
-const Koodak = localFont({ src: "../public/Fonts/KoodakBold.woff" });
+const Koodak = localFont({ src: "../Fonts/KoodakBold.woff" });
 
 export default function App({ Component, pageProps }) {
   const [isOpen, setIsOpen] = useState(false);
