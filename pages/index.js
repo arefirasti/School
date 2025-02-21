@@ -17,7 +17,9 @@ export default function Home(props) {
         <ChangeBackground carousel={props.carouselResponse} />
       </div>
       <section className="bg-gray-100 p-8 text-center flex flex-col items-center justify-center m-11 z-[-100]">
-        <h2 className="text-2xl font-bold text-gray-800">دوره متوسطه دوم</h2>
+        <h2 className="text-2xl font-bold text-gray-800">
+          دوره متوسطه دوم سلام جطوری
+        </h2>
         {isOpen ? null : (
           <ParagraphText>اینجا شروع آینده موفق شغلی شماست!</ParagraphText>
         )}
